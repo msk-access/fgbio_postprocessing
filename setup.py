@@ -9,7 +9,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+def req_file(filename):
+    with open(filename) as f:
+        content = f.readlines()
+        content = filter(lambda x: not x.startswith("#"), content)
+    return [x.strip() for x in content]
+
 setup_requirements = [ ]
 test_requirements = [ ]
 
@@ -34,10 +39,13 @@ setup(
             'fgbio_postprocessing=fgbio_postprocessing.cli:main',
         ],
     },
-    install_requires=requirements,
+    install_requires=req_file("requirements.txt"),
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
+    package_data={
+        "": ['requirements.txt', 'requirements_dev.txt'],
+    },
     keywords='fgbio_postprocessing',
     name='fgbio_postprocessing',
     packages=find_packages(include=['fgbio_postprocessing', 'fgbio_postprocessing.*']),
