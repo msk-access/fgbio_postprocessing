@@ -7,7 +7,7 @@ from fgbio_postprocessing import simplex_filter
 @click.option("--input_bam", required=True, help="Path to bam to be filtered")
 @click.option("--output_filename", required=True, help="Name of output bam")
 @click.option("--min_simplex_reads", required=False, default=3, help="Minimum number of simplex reads to pass filter")
-def calculate_noise(input_bam, output_filename, min_simplex_reads):
+def simplex_filter(input_bam, output_filename, min_simplex_reads):
     """
     Filter bam file to only simplex reads with `min_simplex_reads` on one strand
 

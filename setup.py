@@ -36,7 +36,7 @@ setup(
     description="fgbio_postprocessing",
     entry_points={
         'console_scripts': [
-            'fgbio_postprocessing=fgbio_postprocessing.cli:main',
+            'simplex_filter=fgbio_postprocessing.cli:simplex_filter',
         ],
     },
     install_requires=req_file("requirements.txt"),
