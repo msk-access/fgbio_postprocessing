@@ -13,9 +13,6 @@ fgbio_postprocessing
         :target: https://fgbio-postprocessing.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
-* Documentation: 
-
 Usage: simplex_filter [OPTIONS]
 
   Filter bam file to only simplex reads with `min_simplex_reads` on one
