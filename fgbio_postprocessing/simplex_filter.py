@@ -6,41 +6,36 @@ import pysam
 import os
 
 
-USAGE = "USAGE: " + sys.argv[0] + " <INPUT_BAM_FILE> [ <OUTPUT_BAM_FILE> ]\n"
-min_depth = 3
-
-if len(sys.argv) < 2:
-    sys.stderr.write(USAGE)
-    sys.exit(1)
-
-inputbam = sys.argv[1]
-
-if not os.path.isfile(inputbam):
-    sys.stderr.write("Input BAM file {0} does not exist.\n".format(inputbam))
-    sys.exit(1)
-
-if len(sys.argv) > 2:
-    simplexbam = sys.argv[2]
-else:
-    simplexbam =  re.sub(".bam$", "", inputbam) + ".simplex.bam" #making sure suffix is added even if the input file doesn't end with .bam suffix.
-
-bamfile = pysam.AlignmentFile(inputbam, "rb")
-simplex = pysam.AlignmentFile(simplexbam, "wb", template=bamfile)
-
-for read in bamfile.fetch():
+def main(input_bam, output_filename, min_simplex_reads):
+    """
+    Filter an fgbio collapsed bam to only consensus reads with representation on one strand.
+    
+    :param input_bam: string
+    :param output_filename: string
+    :param min_simplex_reads: int
+    :return:
+    """
+    if not os.path.isfile(input_bam):
+        sys.stderr.write("Input BAM file {0} does not exist.\n".format(inputbam))
+        sys.exit(1)
+    
+    bamfile = pysam.AlignmentFile(input_bam, "rb")
+    simplex = pysam.AlignmentFile(output_filename, "wb", template=bamfile)
+    
+    for read in bamfile.fetch():
+        try:
+            strand1_dp=read.get_tag("aD")
+            strand2_dp=read.get_tag("bD")
+            consens_dp=read.get_tag("cD")
+            # check duplex conditions
+            if consens_dp >= min_simplex_reads and min(strand1_dp, strand2_dp) == 0:
+                simplex.write(read)
+        except:
+            continue
+    
+    bamfile.close()
+    simplex.close()
     try:
-        strand1_dp=read.get_tag("aD")
-        strand2_dp=read.get_tag("bD")
-        consens_dp=read.get_tag("cD")
-        # check duplex conditions
-        if consens_dp >= min_depth and min(strand1_dp, strand2_dp) == 0:
-            simplex.write(read)
+        pysam.index(simplexbam, re.sub(".bam$", "", simplexbam) + ".bai")
     except:
-        continue
-
-bamfile.close()
-simplex.close()
-try:
-    pysam.index(simplexbam, re.sub(".bam$", "", simplexbam) + ".bai")
-except:
-    sys.stderr.write("Could not index Simplex bam file {0}.\n".format(simplexbam))
+        sys.stderr.write("Could not index Simplex bam file {0}.\n".format(simplexbam))
