@@ -14,19 +14,23 @@ fgbio_postprocessing
         :alt: Documentation Status
 
 
+* Documentation: 
+```
+Usage: simplex_filter [OPTIONS]
 
+  Filter bam file to only simplex reads with `min_simplex_reads` on one
+  strand
 
-fgbio_postprocessing
+  :param input_bam: string :param output_filename: string :param
+  min_simplex_reads: int :return:
 
+Options:
+  --input_bam TEXT             Path to bam to be filtered  [required]
+  --output_filename TEXT       Name of output bam  [required]
+  --min_simplex_reads INTEGER  Minimum number of simplex reads to pass filter
+  --help                       Show this message and exit.
+```
 
-* Free software: MIT license
-* Documentation: https://fgbio-postprocessing.readthedocs.io.
-
-
-Features
---------
-
-* TODO
 
 Credits
 -------
