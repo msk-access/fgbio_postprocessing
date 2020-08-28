@@ -6,7 +6,7 @@ import pysam
 import os
 
 
-def main(input_bam, output_filename, min_simplex_reads):
+def filter_simplex(input_bam, output_filename, min_simplex_reads):
     """
     Filter an fgbio collapsed bam to only consensus reads with representation on one strand.
     
@@ -16,7 +16,7 @@ def main(input_bam, output_filename, min_simplex_reads):
     :return:
     """
     if not os.path.isfile(input_bam):
-        sys.stderr.write("Input BAM file {0} does not exist.\n".format(inputbam))
+        sys.stderr.write("Input BAM file {0} does not exist.\n".format(input_bam))
         sys.exit(1)
     
     bamfile = pysam.AlignmentFile(input_bam, "rb")
