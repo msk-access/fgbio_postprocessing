@@ -18,6 +18,9 @@ def filter_simplex(input_bam, output_filename, min_simplex_reads):
     if not os.path.isfile(input_bam):
         sys.stderr.write("Input BAM file {0} does not exist.\n".format(input_bam))
         sys.exit(1)
+
+    if not output_filename:
+        output_filename =  re.sub(".bam$", "", inputbam) + ".simplex.bam"
     
     bamfile = pysam.AlignmentFile(input_bam, "rb")
     simplex = pysam.AlignmentFile(output_filename, "wb", template=bamfile)
@@ -36,6 +39,6 @@ def filter_simplex(input_bam, output_filename, min_simplex_reads):
     bamfile.close()
     simplex.close()
     try:
-        pysam.index(simplex, re.sub(".bam$", "", simplex) + ".bai")
+        pysam.index(output_filename, re.sub(".bam$", "", output_filename) + ".bai")
     except:
-        sys.stderr.write("Could not index Simplex bam file {0}.\n".format(simplex))
+        sys.stderr.write("Could not index Simplex bam file {0}.\n".format(output_filename))

@@ -5,7 +5,7 @@ from fgbio_postprocessing import simplex_filter
 
 @click.command()
 @click.option("--input_bam", required=True, help="Path to bam to be filtered")
-@click.option("--output_filename", required=True, help="Name of output bam")
+@click.option("--output_filename", required=False, help="Name of output bam")
 @click.option("--min_simplex_reads", required=False, default=3, help="Minimum number of simplex reads to pass filter")
 def filter_simplex(input_bam, output_filename, min_simplex_reads):
     """
