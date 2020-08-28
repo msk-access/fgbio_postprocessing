@@ -36,6 +36,6 @@ def filter_simplex(input_bam, output_filename, min_simplex_reads):
     bamfile.close()
     simplex.close()
     try:
-        pysam.index(simplexbam, re.sub(".bam$", "", simplexbam) + ".bai")
+        pysam.index(simplex, re.sub(".bam$", "", simplex) + ".bai")
     except:
-        sys.stderr.write("Could not index Simplex bam file {0}.\n".format(simplexbam))
+        sys.stderr.write("Could not index Simplex bam file {0}.\n".format(simplex))
