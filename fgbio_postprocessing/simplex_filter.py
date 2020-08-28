@@ -20,7 +20,7 @@ def filter_simplex(input_bam, output_filename, min_simplex_reads):
         sys.exit(1)
 
     if not output_filename:
-        output_filename =  re.sub(".bam$", "", inputbam) + ".simplex.bam"
+        output_filename =  re.sub(".bam$", "", inputbam) + "_simplex.bam"
     
     bamfile = pysam.AlignmentFile(input_bam, "rb")
     simplex = pysam.AlignmentFile(output_filename, "wb", template=bamfile)
